@@ -26,6 +26,7 @@ module MetadataListener
       def available_services
         {
           virus: VirusReportingService,
+          digest: DigestReportingService,
           metadata: MetadataReportingService
         }
       end
