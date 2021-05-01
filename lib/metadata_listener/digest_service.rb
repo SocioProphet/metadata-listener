@@ -9,6 +9,7 @@ module MetadataListener
     # @param [String] path of file to compute digest
     def self.call(path)
       raise DigestError, 'file not found' unless Pathname.new(path).exist?
+
       sha = Digest::SHA2.new
       File.open(path) do |f|
         while chunk = f.read(256)
