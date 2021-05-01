@@ -26,10 +26,9 @@ module MetadataListener
         @sha256 = DigestService.call(path)
       end
 
-
       def report_results
         response = connection.put do |req|
-          req.body = { metadata: { fits: { sha256: sha256 } }.to_json
+          req.body = { metadata: { fits: { sha256: sha256 } } }.to_json
         end
         MetadataListener.logger.warn("Report failed: #{response.body}") unless response.success?
       end
