@@ -7,6 +7,7 @@ ENV LANG=C.UTF-8
 RUN apt-get update && \
   apt-get upgrade -y && \
   apt-get install --no-install-recommends clamav clamdscan clamav-daemon libstdc++6 libffi-dev wget libpng-dev make curl unzip \
+  ghostscript libreoffice \
   tomcat9 libmediainfo-dev openjdk-11-jre-headless -y && \
   rm -rf /var/lib/apt/lists/*
 
@@ -17,6 +18,7 @@ RUN curl -Lo /tmp/envconsul.zip https://releases.hashicorp.com/envconsul/0.9.2/e
 # ClamAV
 RUN mkdir /var/run/clamav && \
     chown clamav:clamav /var/run/clamav && \
+    chown clamav:clamav /var/lib/clamav && \
     chmod 750 /var/run/clamav
 
 RUN sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/clamd.conf && \
@@ -45,6 +47,7 @@ RUN echo 'fits.home=/usr/share/fits' >> /usr/share/tomcat9/conf/catalina.propert
 
 RUN chown -R clamav /usr/share/tomcat9 \
   && chown -R clamav /etc/tomcat9 \
+  && chown -R clamav /var/lib/clamav \
   && mkdir /app && chown -R clamav /app
 
 WORKDIR /app
