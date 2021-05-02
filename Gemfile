@@ -9,7 +9,6 @@ gem 'clamby', '~> 1.6'
 gem 'ddtrace', '~> 0.36'
 gem 'faraday'
 gem 'http'
-gem 'nokogiri', '~> 1.10'
 gem 'ruby_tika_app', '~> 1.9'
 gem 'sidekiq', '~> 6.0'
 

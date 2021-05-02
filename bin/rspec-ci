@@ -5,15 +5,6 @@ REPORTER_BIN="cc-test-reporter"
 GIT_COMMITED_AT=$(git log -1 --date=short --pretty=format:%ct)
 export GIT_COMMITED_AT
 
-pgrep java || /usr/share/tomcat9/bin/startup.sh
-
-echo "Waiting for fits to become available"
-if ! timeout 60 bash -c 'until curl http://localhost:8080/fits/version; do sleep 1; done'
-then
-  echo "fits never became ready. Exiting"
-  exit 1
-fi
-
 if [ ! -f ${REPORTER_BIN} ]; then
   echo "Downloading Code Climate reporting tool"
   if [[ `uname` == *"Darwin"* ]]; then

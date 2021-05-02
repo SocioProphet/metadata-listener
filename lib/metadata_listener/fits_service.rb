@@ -1,22 +1,21 @@
 # frozen_string_literal: true
 
 require 'http'
-require 'nokogiri'
+require 'open3'
 
 module MetadataListener
-  class FitsService
-    class FitsError < StandardError; end
+  class FitsError < StandardError; end
 
+  class FitsService
     # @param [String] path of file to scan
     # @return [Hash] converted from the xml output
     def self.call(path)
       return {} unless Pathname.new(path).exist?
 
-      endpoint = ENV.fetch('FITS_ENDPOINT', 'http://localhost:8080/fits/examine')
-      resp = HTTP.get(endpoint, params: { file: path })
-      raise FitsError, Nokogiri::HTML.parse(resp.body.to_s).title unless resp.status < 300
+      stdout, stderr, status = Open3.capture3("#{ENV.fetch('FITS_PATH', '/usr/share/fits/fits.sh')} -i #{path}")
+      raise FitsError, stderr unless status.success?
 
-      Hash.from_xml(resp.body.to_s)
+      Hash.from_xml(stdout.to_s)
     end
   end
 end
