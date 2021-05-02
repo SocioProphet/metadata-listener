@@ -11,6 +11,7 @@ module MetadataListener
   require 'metadata_listener/metadata_reporting_service'
   require 'metadata_listener/digest_service'
   require 'metadata_listener/digest_reporting_service'
+  require 'metadata_listener/thumbnail_service'
 
   class << self
     # @note Because this is intended to run inside a Docker container, it is customary to write logs to STDOUT
