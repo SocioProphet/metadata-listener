@@ -16,7 +16,28 @@ module MetadataListener
       client.get_object(bucket: bucket, key: key, response_target: Tempfile.new)
     end
 
+    # @param [String] key
+    # @param [File] file
+    def put_object(key, file)
+      if object_exists?(bucket, key)
+        MetadataListener.logger.warn("File exists, not overwriting")
+      else
+        client.put_object(
+          bucket: bucket,
+          key: key,
+          body: IO.read(file)
+        )
+      end
+    end
+
     private
+
+      def object_exists?(bucket, path)
+        client.head_object(bucket: bucket, key: path)
+        true 
+      rescue
+        false
+      end
 
       def valid?
         bucket.present? && s3_options.none? { |_key, value| value.nil? }
