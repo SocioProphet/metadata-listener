@@ -15,15 +15,14 @@ module MetadataListener
         MetadataListener.logger.info("Processing file #{path}")
         thumbnail = ImageProcessing::MiniMagick.loader(page: 0)
           .convert('png')
-          .resize_to_limit(400,400)
+          .resize_to_limit(400, 400)
           .call(path)
-        MetadataListener::s3_client.put_object("thumbnails/400,400/#{File.basename(path).split(".")[0]}.png", thumbnail)
-        # File only gets cleaned up when the ruby process ends. 
+        MetadataListener::s3_client.put_object("thumbnails/400,400/#{File.basename(path).split('.')[0]}.png", thumbnail)
+        # File only gets cleaned up when the ruby process ends.
         FileUtils.rm(thumbnail.path)
-      rescue
-        MetadataListener.logger.warn("Failed to create Thumbnail for #{path}")
+      rescue StandardError => e
+        MetadataListener.logger.warn("Failed to create Thumbnail for #{path} with #{e}")
       end
-    
     end
   end
 end

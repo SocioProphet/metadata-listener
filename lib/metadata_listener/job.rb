@@ -28,7 +28,6 @@ module MetadataListener
           virus: VirusReportingService,
           digest: DigestReportingService,
           metadata: MetadataReportingService,
-          
           thumbnail: ThumbnailService
         }
       end

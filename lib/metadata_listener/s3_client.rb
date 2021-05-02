@@ -20,7 +20,7 @@ module MetadataListener
     # @param [File] file
     def put_object(key, file)
       if object_exists?(bucket, key)
-        MetadataListener.logger.warn("File exists, not overwriting")
+        MetadataListener.logger.warn('File exists, not overwriting')
       else
         client.put_object(
           bucket: bucket,
@@ -34,8 +34,8 @@ module MetadataListener
 
       def object_exists?(bucket, path)
         client.head_object(bucket: bucket, key: path)
-        true 
-      rescue
+        true
+      rescue StandardError
         false
       end
 
