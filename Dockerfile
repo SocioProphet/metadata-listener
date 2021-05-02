@@ -15,6 +15,8 @@ RUN curl -Lo /tmp/envconsul.zip https://releases.hashicorp.com/envconsul/0.9.2/e
     unzip /tmp/envconsul.zip -d /bin && \
     rm /tmp/envconsul.zip
 
+COPY conf/policy.xml /etc/ImageMagic-6/
+
 # ClamAV
 RUN mkdir /var/run/clamav && \
     chown clamav:clamav /var/run/clamav && \
